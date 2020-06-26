@@ -37,6 +37,12 @@ class SessionController extends ControllerBase
     /**
      * This action authenticate and logs an user into the application
      */
+
+    public function holaAction(): void 
+    {
+        echo "Hola mundo";
+    }
+
     public function startAction(): void
     {
         if ($this->request->isPost()) {

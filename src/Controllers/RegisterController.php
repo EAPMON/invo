@@ -37,6 +37,7 @@ class RegisterController extends ControllerBase
     {
         $form = new RegisterForm();
 
+        
         if ($this->request->isPost()) {
             $password = $this->request->getPost('password');
             $repeatPassword = $this->request->getPost('repeatPassword');
@@ -53,7 +54,7 @@ class RegisterController extends ControllerBase
             $user->name = $this->request->getPost('name', ['string', 'striptags']);
             $user->email = $this->request->getPost('email', 'email');
             $user->created_at = new RawValue('now()');
-            $user->active = 'Y';
+            $user->active = 1;
 
             if (!$user->save()) {
                 foreach ($user->getMessages() as $message) {
