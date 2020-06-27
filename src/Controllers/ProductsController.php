@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -144,7 +145,7 @@ class ProductsController extends ControllerBase
 
         if (!$product->save()) {
             foreach ($product->getMessages() as $message) {
-                $this->flash->error((string)$message);
+                $this->flash->error((string) $message);
             }
 
             $this->dispatcher->forward([

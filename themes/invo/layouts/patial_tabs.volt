@@ -33,7 +33,7 @@
         'controller': 'eric',
         'action': 'index',
         'title': 'Eric',
-        'uri': '/Eric/index'
+        'uri': '/eric/index'
     ]
 ] %}
 
