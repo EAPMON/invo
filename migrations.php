@@ -23,6 +23,7 @@ return new Config([
             'product_types',
             'products',
             'users',
+            'eric'
         ],
     ],
 ]);

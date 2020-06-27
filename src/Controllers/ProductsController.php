@@ -127,6 +127,8 @@ class ProductsController extends ControllerBase
         $form = new ProductsForm();
         $product = new Products();
 
+        $product->active = 0;  // este campo no estaba siendo enviado y es requerido 
+
         if (!$form->isValid($this->request->getPost(), $product)) {
             foreach ($form->getMessages() as $message) {
                 $this->flash->error($message);

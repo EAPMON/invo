@@ -28,6 +28,12 @@
         'action': 'profile',
         'title': 'Your Profile',
         'uri': '/invoices/profile'
+    ],
+    [
+        'controller': 'eric',
+        'action': 'index',
+        'title': 'Eric',
+        'uri': '/Eric/index'
     ]
 ] %}
 

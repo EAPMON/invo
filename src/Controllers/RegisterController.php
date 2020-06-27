@@ -54,7 +54,7 @@ class RegisterController extends ControllerBase
             $user->name = $this->request->getPost('name', ['string', 'striptags']);
             $user->email = $this->request->getPost('email', 'email');
             $user->created_at = new RawValue('now()');
-            $user->active = 1;
+            $user->active = 0; // la campo active es de tipo boolean y se le estaba asinando un string
 
             if (!$user->save()) {
                 foreach ($user->getMessages() as $message) {
