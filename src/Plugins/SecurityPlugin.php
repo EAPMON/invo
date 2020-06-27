@@ -108,6 +108,7 @@ class SecurityPlugin extends Injectable
             'products'     => ['index', 'search', 'new', 'edit', 'save', 'create', 'delete'],
             'producttypes' => ['index', 'search', 'new', 'edit', 'save', 'create', 'delete'],
             'invoices'     => ['index', 'profile'],
+            'eric'         => ['index', 'new', 'create', 'delete', 'edit', 'update']
         ];
         foreach ($privateResources as $resource => $actions) {
             $acl->addComponent(new Component($resource), $actions);

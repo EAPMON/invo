@@ -37,8 +37,6 @@ class Eric extends Model
     /**
      * Products initializer
      */
-    public function initialize()
-    {
-    }
+   
 
 }
