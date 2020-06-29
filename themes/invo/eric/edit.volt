@@ -1,14 +1,14 @@
 <form action="/eric/update" role="form" method="post">
   <ul class="pager">
       <li class="previous pull-left">
-          {{ link_to("products", "&larr; Go Back") }}
+          {{ link_to("eric", "&larr; Go Back") }}
       </li>
       <li class="pull-right">
           {{ submit_button("Save", "class": "btn btn-success") }}
       </li>
   </ul>
 
-  <h2>Edit products</h2>
+  <h2>Edit Eric</h2>
 
   <fieldset>
       {% for element in form %}
