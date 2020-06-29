@@ -30,10 +30,10 @@ class EricController extends ControllerBase
         $id = $this->request->getPost('id', 'int');
         $eric = Eric::findFirstById($id);
         if (!$eric) {
-            $this->flash->error('Product was not found');
+            $this->flash->error('eric  no encontrado');
 
             $this->dispatcher->forward([
-                'controller' => 'products',
+                'controller' => 'eric',
                 'action'     => 'index',
             ]);
 
@@ -122,7 +122,7 @@ class EricController extends ControllerBase
         }
 
         $form->clear();
-        $this->flash->success('Product was created successfully');
+        $this->flash->success('El producto fue creado exitosamente');
 
         $this->dispatcher->forward([
             'controller' => 'eric',
