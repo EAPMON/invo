@@ -2,7 +2,7 @@
 <div class="col-md-1 offset-md-11 pb-5" >
   {{ link_to("eric/new", "Crear", "class": "btn btn-primary") }}
 </div>
-<table class="table table-bordered table-striped text-center" align="center">
+<table class="table table-bordered table-striped text-center" >
   <thead>
     <tr>
       <th>Id</th>
