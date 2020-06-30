@@ -60,7 +60,7 @@ class EricController extends ControllerBase
         $eric = Eric::findFirstById($id);
         if ($eric->delete()) {
             $this->response('success', 'Registro eliminado', 'eric', 'index');
-        }else {
+        } else {
             $this->response('error', 'error al eliminar el registro ', 'eric', 'index');
         }
     }
@@ -76,33 +76,47 @@ class EricController extends ControllerBase
     {
         if (!$this->request->isPost()) {
             $this->response('error', 'Error al guardar el registro', 'eric', 'index');
-        }
+        } else {
+            $id = $this->request->getPost('id', 'int');
+            if (Eric::findFirstById($id)) {
+                $this->response('error', 'Error al guardar el registro', 'eric', 'index');
+            } else {
+                $form = new EricForm();
+                $eric = new Eric();
 
-        $form = new EricForm();
-        $eric = new Eric();
+                if (!$form->isValid($this->request->getPost(), $eric)) {
+                    foreach ($form->getMessages() as $message) {
+                        $this->flash->error($message);
+                    }
+                    $this->dispatcher->forward([
+                        'controller' => 'eric',
+                        'action'     => 'new',
+                    ]);
+                    return;
+                }
 
-        if (!$form->isValid($this->request->getPost(), $eric)) {
-            foreach ($form->getMessages() as $message) {
-                $this->flash->error($message);
+                if (!$eric->save()) {
+                    foreach ($eric->getMessages() as $message) {
+                        $this->flash->error((string) $message);
+                    }
+
+                    $this->dispatcher->forward([
+                        'controller' => 'eric',
+                        'action'     => 'new',
+                    ]);
+
+                    return;
+                }
+
+                $form->clear();
+                $this->flash->success('El producto fue creado exitosamente');
+
+                $this->dispatcher->forward([
+                    'controller' => 'eric',
+                    'action'     => 'index',
+                ]);
             }
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'new',
-            ]);
         }
-        if (!$eric->save()) {
-            foreach ($eric->getMessages() as $message) {
-                $this->flash->error((string) $message);
-            }
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'new',
-            ]);
-        }
-
-        $form->clear();
-        $this->response('success', 'El registro se ha creado correctamente ', 'eric', 'index');
-        
     }
 
     private function response($status, $message, $controller, $action): void
