@@ -27,19 +27,8 @@ class EricController extends ControllerBase
 
     public function updateAction(): void
     {
-        $id = $this->request->getPost('id', 'int');
-        $eric = Eric::findFirstById($id);
-        if (!$eric) {
-            $this->flash->error('eric  no encontrado');
-
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'index',
-            ]);
-
-            return;
-        }
-
+        $eric = new Eric();
+        $eric->id = $this->request->getPost('id', 'int');
         $eric->description = $this->request->getPost('description');
         $eric->price = $this->request->getPost('price');
 
