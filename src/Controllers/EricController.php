@@ -25,44 +25,33 @@ class EricController extends ControllerBase
     }
 
 
+
     public function updateAction(): void
     {
         $eric = new Eric();
         $eric->id = $this->request->getPost('id', 'int');
         $eric->description = $this->request->getPost('description');
         $eric->price = $this->request->getPost('price');
-
         if ($eric->id) {
             if ($eric->save()) {
-                $this->flash->success('Eric actualizado');
-                $this->dispatcher->forward([
-                    'controller' => 'eric',
-                    'action'     => 'index',
-                ]);
+                $this->response('success', 'Eric actualizado', 'eric', 'index');
             } else {
-                $this->flash->error('Error al actulizar esta entidad');
-                $this->dispatcher->forward([
-                    'controller' => 'eric',
-                    'action'     => 'index',
-                ]);
+                $this->response('error', 'Error al actulizar esta entidad', 'eric', 'index');
             }
         } else {
-            $this->flash->error('Error al actulizar esta entidad');
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'index',
-            ]);
+            $this->response('error', 'Error al actulizar esta entidad', 'eric', 'index');
         }
     }
+
 
     public function editAction($id): void
     {
         $eric = Eric::findFirstById($id);
         if (!$eric) {
-            return;
+            $this->response('error', 'Error este registro no esta registrado en la base de datos', 'eric', 'index');
+        } else {
+            $this->view->form = new EricForm($eric, ['edit' => true]);
         }
-
-        $this->view->form = new EricForm($eric, ['edit' => true]);
     }
 
 
@@ -70,29 +59,23 @@ class EricController extends ControllerBase
     {
         $eric = Eric::findFirstById($id);
         if ($eric->delete()) {
-            $this->flash->success('Eric eliminado');
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'index',
-            ]);
+            $this->response('success', 'Registro eliminado', 'eric', 'index');
+        }else {
+            $this->response('error', 'error al eliminar el registro ', 'eric', 'index');
         }
-        return;
     }
+
 
     public function newAction(): void
     {
         $this->view->form = new EricForm(null, ['edit' => true]);
     }
 
+
     public function createAction(): void
     {
         if (!$this->request->isPost()) {
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'index',
-            ]);
-
-            return;
+            $this->response('error', 'Error al guardar el registro', 'eric', 'index');
         }
 
         $form = new EricForm();
@@ -102,34 +85,32 @@ class EricController extends ControllerBase
             foreach ($form->getMessages() as $message) {
                 $this->flash->error($message);
             }
-
             $this->dispatcher->forward([
                 'controller' => 'eric',
                 'action'     => 'new',
             ]);
-
-            return;
         }
-
         if (!$eric->save()) {
             foreach ($eric->getMessages() as $message) {
                 $this->flash->error((string) $message);
             }
-
             $this->dispatcher->forward([
                 'controller' => 'eric',
                 'action'     => 'new',
             ]);
-
-            return;
         }
 
         $form->clear();
-        $this->flash->success('El producto fue creado exitosamente');
+        $this->response('success', 'El registro se ha creado correctamente ', 'eric', 'index');
+        
+    }
 
+    private function response($status, $message, $controller, $action): void
+    {
+        $this->flash->$status($message);
         $this->dispatcher->forward([
-            'controller' => 'eric',
-            'action'     => 'index',
+            'controller' => $controller,
+            'action'     => $action,
         ]);
     }
 }
