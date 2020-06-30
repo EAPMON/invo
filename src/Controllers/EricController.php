@@ -28,18 +28,26 @@ class EricController extends ControllerBase
     public function updateAction(): void
     {
         $eric = new Eric();
-        #$eric->id = $this->request->getPost('id', 'int');
+        $eric->id = $this->request->getPost('id', 'int');
         $eric->description = $this->request->getPost('description');
         $eric->price = $this->request->getPost('price');
 
-        if ($eric->save()){
-            $this->flash->success('Eric actualizado');
-            $this->dispatcher->forward([
-                'controller' => 'eric',
-                'action'     => 'index',
-            ]);
-        }else {
-            $this->flash->success('Error al actulizar esta entidad');
+        if ($eric->id) {
+            if ($eric->save()) {
+                $this->flash->success('Eric actualizado');
+                $this->dispatcher->forward([
+                    'controller' => 'eric',
+                    'action'     => 'index',
+                ]);
+            } else {
+                $this->flash->error('Error al actulizar esta entidad');
+                $this->dispatcher->forward([
+                    'controller' => 'eric',
+                    'action'     => 'index',
+                ]);
+            }
+        } else {
+            $this->flash->error('Error al actulizar esta entidad');
             $this->dispatcher->forward([
                 'controller' => 'eric',
                 'action'     => 'index',
